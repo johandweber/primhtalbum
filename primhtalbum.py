@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 
 
-# primhtalbum (Primitive HTML album) is a python3 script
-# that creates a very simple web gallery.
+# primhtalbum (Primitive HTML album) is an interactive
+# python3 script that creates a very simple web gallery.
 # It does not intend to compete with any other of the many
 # other webgallery programs and should rather be considered as
 # a python exercise.
@@ -14,7 +14,7 @@
 # package. These programs can be easily installe from the
 # package systems of all maior linux distributions (the program
 # has been tested using Ubuntu 18.04) but are also available for
-# other UNIX-like environments like MacOS X, cygwin, or MSYS2.
+# other UNIX-like environments like MacOS X, Cygwin, or MSYS2.
 #
 # The to run the program, just enter the directory where the
 # images you want to use in your album are (subdirectories are
@@ -93,8 +93,11 @@ def write_stylesheets(auxil):
 
     slideshowcssfile.close()
 
-def write_single_images_htm(auxil,imfilelist, title):
+def write_single_images_htm(auxil,imfilelist, title,language):
     print ("Number of image files: "+str(len(imfilelist)))
+    if (len(imfilelist) == 0):
+        print("No files to process!")
+        sys.exit()
     for i in range(0,len(imfilelist)):
         if imfilelist[i][-5:] == "webm":
             htmname=auxil+"/"+imfilelist[i][0:-5]+".htm"
@@ -128,7 +131,10 @@ def write_single_images_htm(auxil,imfilelist, title):
         htmfile.write("</p>\n")
 
         htmfile.write("<p>\n")
-        htmfile.write("Bild "+str((i+1)) +" von "+str(len(imfilelist))+"\n")
+        if (language == "en"):
+            htmfile.write("Image "+str((i+1)) +" of "+str(len(imfilelist))+"\n")
+        elif (language == "de"):
+            htmfile.write("Bild "+str((i+1)) +" von "+str(len(imfilelist))+"\n")
         htmfile.write("</p>")
 
         htmfile.write("<p>\n")
@@ -143,17 +149,28 @@ def write_single_images_htm(auxil,imfilelist, title):
                 htmname_old=imfilelist[i-1][0:-5]+".htm"
                 htmfile.write("<td></td>\n")  
             else:   
-                htmname_old=imfilelist[i-1][0:-4]+".htm"             
-            htmfile.write("<td><a href=\""+htmname_old+"\">Voriges Bild</a></td>\n")
-
-        htmfile.write("<td><a href=\"../index.htm\"> Zur Übersicht </a></td>\n")
+                htmname_old=imfilelist[i-1][0:-4]+".htm"
+            if (language== "en"):
+                htmfile.write("<td><a href=\""+htmname_old+"\">previous image</a></td>\n")
+            elif(language=="de"):
+                htmfile.write("<td><a href=\""+htmname_old+"\">vorheriges Bild</a></td>\n")
+                
+        if (language =="en"):
+            htmfile.write("<td><a href=\"../index.htm\"> overview </a></td>\n")
+           
+        elif (language == "de"):
+            htmfile.write("<td><a href=\"../index.htm\"> zur Übersicht </a></td>\n")
 
         if (i !=len(imfilelist)-1):
             if imfilelist[i+1][-5:] == "webm":
                 htmname_new=imfilelist[i+1][0:-5]+".htm"
             else:   
                 htmname_new=imfilelist[i+1][0:-4]+".htm"
-            htmfile.write("<td><a href=\""+htmname_new+"\">Nächstes Bild</a></td>\n")
+
+            if (language=="en"):
+                htmfile.write("<td><a href=\""+htmname_new+"\">next image</a></td>\n")                
+            elif(language=="de"):
+                htmfile.write("<td><a href=\""+htmname_new+"\">nächstes Bild</a></td>\n")
 
         htmfile.write("</tr>\n")
         htmfile.write("</table>\n")
@@ -165,7 +182,7 @@ def write_single_images_htm(auxil,imfilelist, title):
 
     htmfile.close()
 
-def write_index_htm(auxil,imfilelist, title, minheight, midheight):
+def write_index_htm(auxil,imfilelist, title, minheight, midheight, language):
     print("Generate index.htm...")
     indexfile=open("index.htm", "w")
     indexfile.write("<!DOCTYPE html>\n")
@@ -223,11 +240,19 @@ def write_index_htm(auxil,imfilelist, title, minheight, midheight):
             indexfile.write("</a>\n")
             
     indexfile.write("<br/>\n")
-    indexfile.write("<a href=\""+savetitle(title)+".zip\">Hier</a> ist ein zip-Archiv"+\
-                    " der Webseite mit allen Bildern.") 
+
+    if (language=="en"):
+         indexfile.write("<a href=\""+savetitle(title)+".zip\">Here</a> is a  zip archive"+\
+                        " of the web page with all images.")        
+    elif (language=="de"):
+        indexfile.write("<a href=\""+savetitle(title)+".zip\">Hier</a> ist ein zip-Archiv"+\
+                        " der Webseite mit allen Bildern.") 
     indexfile.write("<hr/>\n")
     now=time.localtime()
-    indexfile.write("<i>Letzte Änderung:"+str(now[2])+"."+str(now[1])+"."+str(now[0])+"</i>\n")
+    if (language=="en"):
+        indexfile.write("<i>last modification:"+str(now[0])+"-"+str(now[1])+"-"+str(now[2])+"</i>\n")        
+    elif (language=="de"):   
+        indexfile.write("<i>Letzte Änderung:"+str(now[0])+"-"+str(now[1])+"-"+str(now[2])+"</i>\n")
     indexfile.write("</body>\n")
     indexfile.write("</html>")
     indexfile.close
@@ -242,10 +267,16 @@ minheight=input("Please input height of thumbnail pictures in pixel:")
 
 #for clickimages
 midheight=input("Please input height of thumbnail pictures in click-gallery:")
-
+print()
+print ("English...............................(1)")
+print ("German................................(2)")
+print
+languagelist=["en","de"]
+languagemenu=int(input("Please select language:"))
+language=languagelist[languagemenu-1]                   
 filelist=os.listdir()
 filelist.sort()
-print (filelist)
+#print (filelist)
 
 imagelist=[]
 videolist=[]
@@ -270,8 +301,8 @@ print (str(len(videolist))+" video files found:")
 cleanauxil("auxil")
 os.mkdir("auxil")
 write_stylesheets("auxil")
-write_single_images_htm("auxil",imagelist,title)
-write_index_htm("auxil",imagelist,title, minheight, midheight)
+write_single_images_htm("auxil",imagelist,title,language)
+write_index_htm("auxil",imagelist,title, minheight, midheight,language)
 print ("create zip package...")
 createzip("auxil", title)
 print("done")

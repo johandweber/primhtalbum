@@ -1,8 +1,8 @@
 primhtalbum - A primitive HTML image album generator program
 ============================================================
 
-primhtalbum (Primitive HTML album) is a python3 script
-that creates a very simple web gallery.
+primhtalbum (Primitive HTML album) is an interactive
+python3 script that creates a very simple web gallery.
 It does not intend to compete with any other of the many
 other webgallery programs and should rather be considered as
 a python exercise.
@@ -14,7 +14,7 @@ delete command "rm", the "zip" command line program as well as the
 package. These programs can be easily installe from the
 package systems of all maior linux distributions (the program
 has been tested using Ubuntu 18.04) but are also available for
-other UNIX-like environments like MacOS X, cygwin, or MSYS2.
+other UNIX-like environments like MacOS X, Cygwin, or MSYS2.
 
 The to run the program, just enter the directory where the
 images you want to use in your album are (subdirectories are
