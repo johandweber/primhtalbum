@@ -11,7 +11,7 @@ just a photo album based on an uncomplicated HTML interface.
 The script requires the presence of the standard UNIX file
 delete command "rm", the "zip" command line program as well as the
 "convert" an the "mogrify" programs from the Image Magick
-package. These programs can be easily installe from the
+package. These programs can be easily installed from the
 package systems of all maior linux distributions (the program
 has been tested using Ubuntu 18.04) but are also available for
 other UNIX-like environments like MacOS X, Cygwin, or MSYS2.
@@ -31,4 +31,4 @@ album and the size of the prview and the gallery pictures
 The script is licensed according to the rules of
 GPL, Version 2 (see LICENSE).
 
-(c) 2019 by Johann Andreas Weber
+(c) 2019-2021 by Johann Andreas Weber
