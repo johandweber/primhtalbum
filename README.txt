@@ -28,7 +28,5 @@ After that you will be interactively asked the title of the
 album and the size of the prview and the gallery pictures
 (the original images remain available).
 
-The script is licensed according to the rules of
-GPL, Version 2 (see LICENSE).
 
-(c) 2019-2021 by Johann Andreas Weber
+(c) 2019-2024 by Johann Andreas Weber
